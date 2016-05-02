@@ -68,12 +68,12 @@ def load_cifar(d=10, borrow = True):
     
     
     train_img = np.zeros((l,3,32,32))
-    train_labels = np.zeros((l,))
+    train_labels = np.array(())
     j=0
     for i in xrange(5):
         imgs = train_data[i]['data']
         labels = train_data[i]['labels']
-        np.append(train_labels,labels)
+        train_labels = np.append(train_labels,labels)
         for img in imgs:
             train_img[j] = img.reshape(3,32,32)
             j+=1
