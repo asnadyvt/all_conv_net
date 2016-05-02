@@ -3,6 +3,8 @@ import cPickle as pickle
 import os
 import gzip
 import tarfile
+import theano
+import theano.tensor as T
 
 def unpickle(file):
     import cPickle
@@ -11,7 +13,7 @@ def unpickle(file):
     fo.close()
     return dict
 
-def load_cifar(d=10):
+def load_cifar(d=10, borrow = True):
     '''
     Load the ATIS dataset
 
@@ -81,7 +83,19 @@ def load_cifar(d=10):
     for img in test_data['data']:
         test_img[j]=img.reshape(3,32,32)
         j+=1
-    return train_img,train_labels,test_img,test_labels
+    train_img = theano.shared(np.asarray(train_img,
+                                           dtype=theano.config.floatX),
+                             borrow=borrow)
+    test_img = theano.shared(np.asarray(test_img,
+                                           dtype=theano.config.floatX),
+                             borrow=borrow)
+    train_labels = theano.shared(np.asarray(train_labels,
+                                           dtype=theano.config.floatX),
+                             borrow=borrow)
+    test_labels = theano.shared(np.asarray(test_labels,
+                                           dtype=theano.config.floatX),
+                             borrow=borrow)
+    return train_img,train_labels,T.cast(test_img,'int32'),T.cast(test_labels,'int32')
 
 
 
