@@ -18,6 +18,12 @@ from lasagne.layers import InputLayer, DropoutLayer
 from lasagne.layers import DenseLayer
 from lasagne.regularization import regularize_network_params, l2
 
+from model import *
+from all_cnn import *
+from conv_pool import *
+from strided_cnn import *
+
+
 def load_model_values(filename):
     with gzip.open(filename, 'rb') as f:
         values = pickle.load(f)
@@ -28,12 +34,13 @@ def save_model(output_layer, filename="model.pklz"):
     with gzip.open(filename, 'wb') as f:
         pickle.dump(values, f, protocol=2)
 
-def train(model):
+def train(model, batch_size = 200):
     net = model()
 
     x = net['input'].input_var
     y = T.ivector('y')
 
+    print("........ building model")
     prediction = lasagne.layers.get_output(net['output'],x)
 
     train_prediction = lasagne.layers.get_output(net['output'], x, deterministic=False)
@@ -51,21 +58,27 @@ def train(model):
 
     params = lasagne.layers.get_all_params(net['output'], trainable=True)
 
-    lr = T.lscalar()
-    updates = lasagne.updates.momentum(loss_train, params, momentum=0.9, learning_rate=lr)
+    lr = T.fscalar()
+
+    updates = lasagne.updates.momentum(loss_train, params, momentum=np.float32(0.9), learning_rate=lr)
 
     lr_epochs = [200,250, 300]
 
     y_pred = T.argmax(test_prediction, axis=1)
     errors = T.mean(T.neq(y_pred, y))
 
-    index = T.lscalar()
+    index = T.iscalar()
 
 
     # Load Dataset
     train_x, train_y, valid_x, valid_y, test_x, test_y = load_cifar()
 
-    train_model = theano.function(inputs=[index, lr], outputs=[loss], updates=updates,
+    n_train_batches = train_x.get_value(borrow=True).shape[0] // batch_size
+    n_valid_batches = valid_x.get_value(borrow=True).shape[0] // batch_size
+    n_test_batches = test_x.get_value(borrow=True).shape[0] // batch_size
+
+
+    train_model = theano.function(inputs=[index, lr], outputs=[loss_train], updates=updates,
             givens={
                 x: train_x[index*batch_size:(index+1)*batch_size],
                 y: train_y[index*batch_size:(index+1)*batch_size]
@@ -83,6 +96,7 @@ def train(model):
                 y: test_y[index*batch_size:(index+1)*batch_size]
                 })
 
+    print("........ training")
     train_nn(net, model.__name__, train_model, validate_model, test_model, n_train_batches, n_valid_batches, n_test_batches)
 
 def train_nn(net, model_name, train_model, validate_model, test_model,
@@ -199,7 +213,6 @@ def train_nn(net, model_name, train_model, validate_model, test_model,
 
     end_time = timeit.default_timer()
 
-    csvfile = open('results.csv', 'a')
     # Retrieve the name of function who invokes train_nn() (caller's name)
     curframe = inspect.currentframe()
     calframe = inspect.getouterframes(curframe, 2)
@@ -212,6 +225,6 @@ def train_nn(net, model_name, train_model, validate_model, test_model,
     print(('The training process for function ' +
            calframe[1][3] +
            ' ran for %.2fm' % ((end_time - start_time) / 60.)))
-    resultswriter = csv.writer(csvfile)
-    resultswriter.writerow([best_validation_loss, best_iter, test_score, calframe[1][3], (end_time - start_time) / 60.])
-    csvfile.close()
+
+if __name__ == "__main__":
+    train(model_a)
