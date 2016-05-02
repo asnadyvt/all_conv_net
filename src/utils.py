@@ -83,10 +83,25 @@ def load_cifar(d=10, borrow = True):
     for img in test_data['data']:
         test_img[j]=img.reshape(3,32,32)
         j+=1
+    
+    ind = int(train_img.shape[0]*.9)
+    
+    valid_img = train_img[ind:]
+    valid_labels = train_labels[ind:]
+    
+    train_img = train_img[:ind]
+    train_labels = train_labels[:ind]
+    
     train_img = theano.shared(np.asarray(train_img,
                                            dtype=theano.config.floatX),
                              borrow=borrow)
     test_img = theano.shared(np.asarray(test_img,
+                                           dtype=theano.config.floatX),
+                             borrow=borrow)
+    valid_img = theano.shared(np.asarray(valid_img,
+                                           dtype=theano.config.floatX),
+                             borrow=borrow)
+    valid_labels = theano.shared(np.asarray(valid_labels,
                                            dtype=theano.config.floatX),
                              borrow=borrow)
     train_labels = theano.shared(np.asarray(train_labels,
@@ -95,7 +110,7 @@ def load_cifar(d=10, borrow = True):
     test_labels = theano.shared(np.asarray(test_labels,
                                            dtype=theano.config.floatX),
                              borrow=borrow)
-    return train_img,T.cast(train_labels,'int32'),test_img,T.cast(test_labels,'int32')
+    return train_img,T.cast(train_labels,'int32'),valid_img,T.cast(valid_labels,'int32'),test_img,T.cast(test_labels,'int32')
 
 
 
