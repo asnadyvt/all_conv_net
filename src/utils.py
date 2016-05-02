@@ -56,12 +56,35 @@ def load_cifar(d=10):
    
     filename = check_dataset('cifar-10-python.tar.gz')
     train_data = [None]*5
+    l = 0
     for i in xrange(5):
         data_path = filename+'/data_batch_'+str(i+1)
         train_data[i] = unpickle(data_path)
+        l+=len(train_data[i]['labels'])
     test_data = unpickle(filename+'/test_batch')
     label_names = unpickle(filename+'/batches.meta')
-    return train_data,test_data,label_names
     
+    
+    train_img = np.zeros((l,3,32,32))
+    train_labels = np.zeros((l,))
+    j=0
+    for i in xrange(5):
+        imgs = train_data[i]['data']
+        labels = train_data[i]['labels']
+        np.append(train_labels,labels)
+        for img in imgs:
+            train_img[j] = img.reshape(3,32,32)
+            j+=1
+    j = 0
+    test_img = np.zeros((len(test_data['data']),3,32,32))
+    test_labels = test_data['labels']
+    for img in test_data['data']:
+        test_img[j]=img.reshape(3,32,32)
+        j+=1
+    return train_img,train_labels,test_img,test_labels
+
+
+
+
 if __name__ == '__main__':
     load_cifar(10)
