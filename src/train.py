@@ -153,6 +153,9 @@ def train_nn(net, model_name, train_model, validate_model, test_model,
     done_looping = False
 
     while (epoch < n_epochs) and (not done_looping):
+        if epoch in lr_epochs:
+            save_model(net['output'], "{0}_{1}.pklz".format(model_name, epoch))
+            lr *= 0.1
         epoch = epoch + 1
         for minibatch_index in range(n_train_batches):
 
@@ -160,9 +163,7 @@ def train_nn(net, model_name, train_model, validate_model, test_model,
 
             if (iter % 100 == 0) and verbose:
                 print('training @ iter = ', iter, file=sys.stderr)
-            if epoch in lr_epochs:
-                save_model(net['output'], "{0}_{1}.pklz".format(model_name, epoch))
-                lr *= 0.1
+            
             cost_ij = train_model(minibatch_index, lr)
 
             if (iter + 1) % validation_frequency == 0:
