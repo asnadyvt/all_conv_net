@@ -67,6 +67,8 @@ def train(model, batch_size = 200):
     y_pred = T.argmax(test_prediction, axis=1)
     errors = T.mean(T.neq(y_pred, y))
 
+    test_prediction_fn = theano.function(inputs=[x], outputs=test_prediction)
+
     index = T.iscalar()
 
 
@@ -76,7 +78,6 @@ def train(model, batch_size = 200):
     n_train_batches = train_x.get_value(borrow=True).shape[0] // batch_size
     n_valid_batches = valid_x.get_value(borrow=True).shape[0] // batch_size
     n_test_batches = test_x.get_value(borrow=True).shape[0] // batch_size
-
 
     train_model = theano.function(inputs=[index, lr], outputs=[loss_train], updates=updates,
             givens={
@@ -143,7 +144,7 @@ def train_nn(net, model_name, train_model, validate_model, test_model,
                                   # on the validation set; in this case we
                                   # check every epoch
 
-    best_validation_loss = numpy.inf
+    best_validation_loss = np.inf
     best_iter = 0
     test_score = 0.
     start_time = timeit.default_timer()
@@ -170,7 +171,7 @@ def train_nn(net, model_name, train_model, validate_model, test_model,
                 # compute zero-one loss on validation set
                 validation_losses = [validate_model(i) for i
                                      in range(n_valid_batches)]
-                this_validation_loss = numpy.mean(validation_losses)
+                this_validation_loss = np.mean(validation_losses)
 
                 if verbose:
                     print('epoch %i, loss %f, minibatch %i/%i, validation error %f %%' %
@@ -198,7 +199,7 @@ def train_nn(net, model_name, train_model, validate_model, test_model,
                         test_model(i)
                         for i in range(n_test_batches)
                     ]
-                    test_score = numpy.mean(test_losses)
+                    test_score = np.mean(test_losses)
 
                     if verbose:
                         print(('     epoch %i, minibatch %i/%i, test error of '
