@@ -95,7 +95,7 @@ def load_cifar(d=10, borrow = True):
     test_labels = theano.shared(np.asarray(test_labels,
                                            dtype=theano.config.floatX),
                              borrow=borrow)
-    return train_img,train_labels,T.cast(test_img,'int32'),T.cast(test_labels,'int32')
+    return train_img,T.cast(train_labels,'int32'),test_img,T.cast(test_labels,'int32')
 
 
 
