@@ -171,7 +171,7 @@ def train_nn(net, model_name, train_model, validate_model, test_model,
                 # compute zero-one loss on validation set
                 validation_losses = [validate_model(i) for i
                                      in range(n_valid_batches)]
-                this_validation_loss = numpy.mean(validation_losses)
+                this_validation_loss = np.mean(validation_losses)
 
                 if verbose:
                     print('epoch %i, loss %f, minibatch %i/%i, validation error %f %%' %
