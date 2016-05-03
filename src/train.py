@@ -35,6 +35,7 @@ def save_model(output_layer, filename="model.pklz"):
         pickle.dump(values, f, protocol=2)
 
 def train(model, batch_size = 200):
+    np.random.seed(569)
     net = model()
 
     x = net['input'].input_var
@@ -57,6 +58,8 @@ def train(model, batch_size = 200):
 
 
     params = lasagne.layers.get_all_params(net['output'], trainable=True)
+    for p in params:
+        p.set_value(p.get_value()/ 5)
 
     lr = T.fscalar()
 
@@ -78,7 +81,7 @@ def train(model, batch_size = 200):
     n_train_batches = train_x.get_value(borrow=True).shape[0] // batch_size
     n_valid_batches = valid_x.get_value(borrow=True).shape[0] // batch_size
     n_test_batches = test_x.get_value(borrow=True).shape[0] // batch_size
-
+    
     train_model = theano.function(inputs=[index, lr], outputs=[loss_train], updates=updates,
             givens={
                 x: train_x[index*batch_size:(index+1)*batch_size],
@@ -96,7 +99,6 @@ def train(model, batch_size = 200):
                 x: test_x[index*batch_size:(index+1)*batch_size],
                 y: test_y[index*batch_size:(index+1)*batch_size]
                 })
-
     print("........ training")
     train_nn(net, model.__name__, train_model, validate_model, test_model, n_train_batches, n_valid_batches, n_test_batches)
 
@@ -172,12 +174,13 @@ def train_nn(net, model_name, train_model, validate_model, test_model,
                 # compute zero-one loss on validation set
                 validation_losses = [validate_model(i) for i
                                      in range(n_valid_batches)]
+      
                 this_validation_loss = np.mean(validation_losses)
 
                 if verbose:
                     print('epoch %i, loss %f, minibatch %i/%i, validation error %f %%' %
                         (epoch,
-                        cost_ij,
+                        cost_ij[0],
                          minibatch_index + 1,
                          n_train_batches,
                          this_validation_loss * 100.), file=sys.stderr)
