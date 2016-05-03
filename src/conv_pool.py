@@ -38,7 +38,7 @@ def conv_pool_cnn_a():
     net['conv4_1'] = PoolLayer(net['conv3_2'], pool_size=3, stride=2)
     net['drop4_1'] =  DropoutLayer(net['conv4_1'], p=0.5)
 
-    net['conv5_1'] = ConvLayer(net['conv4_1'], num_filters=192, filter_size=3, pad=1, flip_filters=False)
+    net['conv5_1'] = ConvLayer(net['drop4_1'], num_filters=192, filter_size=3, pad=1, flip_filters=False)
     net['conv6_1'] = ConvLayer(net['conv5_1'], num_filters=192, filter_size=1, pad=1, flip_filters=False)
     net['conv7_1'] = ConvLayer(net['conv6_1'], num_filters=10, filter_size=1, pad=1, flip_filters=False)
     net['global_avg'] = GlobalPoolLayer(net['conv7_1'])
@@ -64,7 +64,7 @@ def conv_pool_cnn_b():
     net['conv4_1'] = PoolLayer(net['conv3_3'], pool_size=3, stride=2)
     net['drop4_1'] =  DropoutLayer(net['conv4_1'], p=0.5)
 
-    net['conv5_1'] = ConvLayer(net['conv4_1'], num_filters=192, filter_size=3, pad=1, flip_filters=False)
+    net['conv5_1'] = ConvLayer(net['drop4_1'], num_filters=192, filter_size=3, pad=1, flip_filters=False)
     net['conv6_1'] = ConvLayer(net['conv5_1'], num_filters=192, filter_size=1, pad=1, flip_filters=False)
     net['conv7_1'] = ConvLayer(net['conv6_1'], num_filters=10, filter_size=1, pad=1, flip_filters=False)
     net['global_avg'] = GlobalPoolLayer(net['conv7_1'])
@@ -91,7 +91,7 @@ def conv_pool_cnn_c():
     net['conv4_1'] = PoolLayer(net['conv3_3'], pool_size=3, stride=2)
     net['drop4_1'] =  DropoutLayer(net['conv4_1'], p=0.5)
 
-    net['conv5_1'] = ConvLayer(net['conv4_1'], num_filters=192, filter_size=3, pad=1, flip_filters=False)
+    net['conv5_1'] = ConvLayer(net['drop4_1'], num_filters=192, filter_size=3, pad=1, flip_filters=False)
     net['conv6_1'] = ConvLayer(net['conv5_1'], num_filters=192, filter_size=1, pad=1, flip_filters=False)
     net['conv7_1'] = ConvLayer(net['conv6_1'], num_filters=10, filter_size=1, pad=1, flip_filters=False)
     net['global_avg'] = GlobalPoolLayer(net['conv7_1'])
