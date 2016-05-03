@@ -58,8 +58,8 @@ def train(model, batch_size = 200, learning_rate=0.1):
 
 
     params = lasagne.layers.get_all_params(net['output'], trainable=True)
-    #for p in params:
-    #    p.set_value(p.get_value()/ 5)
+    for p in params:
+        p.set_value(p.get_value()/ 5)
 
     lr = T.fscalar()
 
@@ -165,7 +165,7 @@ def train_nn(net, model_name, train_model, validate_model, test_model,
             iter = (epoch - 1) * n_train_batches + minibatch_index
 
             if (iter % 100 == 0) and verbose:
-                print('training @ iter = ', iter)
+                print('training @ iter = ', iter, file=sys.stderr)
             
             cost_ij = train_model(minibatch_index, lr)
 
@@ -183,7 +183,7 @@ def train_nn(net, model_name, train_model, validate_model, test_model,
                         cost_ij[0],
                          minibatch_index + 1,
                          n_train_batches,
-                         this_validation_loss * 100.))
+                         this_validation_loss * 100.), file=sys.stderr)
 
                 # if we got the best validation score until now
                 if this_validation_loss < best_validation_loss:
@@ -210,7 +210,7 @@ def train_nn(net, model_name, train_model, validate_model, test_model,
                                'best model %f %%') %
                               (epoch, minibatch_index + 1,
                                n_train_batches,
-                               test_score * 100.))
+                               test_score * 100.), file=sys.stderr)
 
             if patience <= iter or (best_validation_loss == 0.0 and test_score == 0.0):
                 done_looping = True
