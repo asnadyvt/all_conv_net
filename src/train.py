@@ -34,7 +34,7 @@ def save_model(output_layer, filename="model.pklz"):
     with gzip.open(filename, 'wb') as f:
         pickle.dump(values, f, protocol=2)
 
-def train(model, batch_size = 200):
+def train(model, batch_size = 200, learning_rate=0.1):
     np.random.seed(569)
     net = model()
 
@@ -100,7 +100,7 @@ def train(model, batch_size = 200):
                 y: test_y[index*batch_size:(index+1)*batch_size]
                 })
     print("........ training")
-    train_nn(net, model.__name__, train_model, validate_model, test_model, n_train_batches, n_valid_batches, n_test_batches)
+    train_nn(net, model.__name__, train_model, validate_model, test_model, n_train_batches, n_valid_batches, n_test_batches, lr=learning_rate)
 
 def train_nn(net, model_name, train_model, validate_model, test_model,
             n_train_batches, n_valid_batches, n_test_batches, n_epochs=350, lr_epochs=[200, 250, 300],
@@ -232,4 +232,4 @@ def train_nn(net, model_name, train_model, validate_model, test_model,
            ' ran for %.2fm' % ((end_time - start_time) / 60.)))
 
 if __name__ == "__main__":
-    train(model_a)
+    train(model_b, learning_rate=0.25)
