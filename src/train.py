@@ -58,8 +58,8 @@ def train(model, batch_size = 200, learning_rate=0.1):
 
 
     params = lasagne.layers.get_all_params(net['output'], trainable=True)
-    for p in params:
-        p.set_value(p.get_value()/ 5)
+    #for p in params:
+    #    p.set_value(p.get_value()/ 5)
 
     lr = T.fscalar()
 
@@ -232,4 +232,23 @@ def train_nn(net, model_name, train_model, validate_model, test_model,
            ' ran for %.2fm' % ((end_time - start_time) / 60.)))
 
 if __name__ == "__main__":
-    train(model_b, learning_rate=0.25)
+    lr = 0.25
+    lr = float(sys.argv[2])
+    mod_id = sys.argv[1]
+    d = {}
+    d['model_a'] = model_a
+    d['model_b'] = model_b
+    d['model_c'] = model_c
+    d['all_cnn_a'] = all_cnn_a
+    d['all_cnn_b'] = all_cnn_b
+    d['all_cnn_c'] = all_cnn_c
+    d['conv_pool_cnn_a'] = conv_pool_cnn_a
+    d['conv_pool_cnn_b'] = conv_pool_cnn_b
+    d['conv_pool_cnn_c'] = conv_pool_cnn_c
+    d['strided_cnn_a'] = strided_cnn_a
+    d['strided_cnn_b'] = strided_cnn_b
+    d['strided_cnn_c'] = strided_cnn_c
+    print ('learning rate: ' + str(lr))
+    print ('model: '+mod_id)
+    model = d[mod_id]
+    train(model, learning_rate=lr)
