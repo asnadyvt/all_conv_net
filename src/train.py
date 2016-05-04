@@ -186,8 +186,9 @@ def train(model, batch_size = 200, learning_rate=0.1):
     calframe = inspect.getouterframes(curframe, 2)
 
     while (epoch < n_epochs) and (not done_looping):
-        if epoch in lr_epochs:
+        if epoch % 50 == 0  or epoch in lr_epochs:
             save_model(net['output'], "{0}_{1}.pklz".format(model_name, epoch))
+        if epoch in lr_epochs:
             lr *= 0.1
         epoch = epoch + 1
         
