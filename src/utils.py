@@ -20,7 +20,7 @@ def vec2img(v):
         img[:,:,i] = v[i*1024:(i+1)*1024].reshape(32,32)
     return img
 
-def load_cifar_whitened():
+def load_cifar_whitened(borrow = True):
     folder_path = os.path.join(
             os.path.split(__file__)[0],
             "..",
