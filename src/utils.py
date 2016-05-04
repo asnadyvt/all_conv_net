@@ -6,7 +6,6 @@ import tarfile
 import theano
 import theano.tensor as T
 import pdb
-from pylearn2.expr.preprocessing import global_contrast_normalize
 from sklearn.cross_validation import train_test_split
 
 def unpickle(file):
