@@ -8,11 +8,61 @@ import theano.tensor as T
 from sklearn.cross_validation import train_test_split
 
 def unpickle(file):
-    import cPickle
     fo = open(file, 'rb')
-    dict = cPickle.load(fo)
+    dict = pickle.load(fo)
     fo.close()
     return dict
+
+def vec2img(v):
+    img = np.zeros((32,32,3))
+    for i in xrange(3):
+        img[:,:,i] = v[i*1024:(i+1)*1024].reshape(32,32)
+    return img
+
+def load_cifar_whitened():
+    folder_path = os.path.join(
+            os.path.split(__file__)[0],
+            "..",
+            "data"
+        )
+    train_cifar = np.load('train_x.mat')
+    train_label = np.load('train_y.mat')
+    test_cifar = np.load('test_x.mat')
+    test_label = np.load('test_y.mat')
+    
+    l = train_cifar.shape[0]
+    
+    train_img = np.zeros((l,3,32,32))
+    test_img = np.zeros((test_cifar.shape[0],3,32,32))
+    for i in xrange(l):
+        train_img[i] = train_cifar[i].reshape(3,32,32)
+    for j in xrange(test_cifar.shape[0]):
+        test_img = test_cifar[j].reshape(3,32,32)
+    
+    
+    train_img, valid_img, train_labels, valid_labels = train_test_split(train_img, train_labels, test_size=0.1)
+    
+    train_img = theano.shared(np.asarray(train_img,
+                                           dtype=theano.config.floatX),
+                             borrow=borrow)
+    test_img = theano.shared(np.asarray(test_img,
+                                           dtype=theano.config.floatX),
+                             borrow=borrow)
+    valid_img = theano.shared(np.asarray(valid_img,
+                                           dtype=theano.config.floatX),
+                             borrow=borrow)
+    valid_labels = theano.shared(np.asarray(valid_labels,
+                                           dtype=theano.config.floatX),
+                             borrow=borrow)
+    train_labels = theano.shared(np.asarray(train_labels,
+                                           dtype=theano.config.floatX),
+                             borrow=borrow)
+    test_labels = theano.shared(np.asarray(test_labels,
+                                           dtype=theano.config.floatX),
+                             borrow=borrow)
+    return train_img,T.cast(train_labels,'int32'),valid_img,T.cast(valid_labels,'int32'),test_img,T.cast(test_labels,'int32')
+
+    
 
 def load_cifar(d=10, borrow = True):
     '''
@@ -87,7 +137,7 @@ def load_cifar(d=10, borrow = True):
 
 
     train_img, valid_img, train_labels, valid_labels = train_test_split(train_img, train_labels, test_size=0.1)
-
+    
     train_img = theano.shared(np.asarray(train_img,
                                            dtype=theano.config.floatX),
                              borrow=borrow)
