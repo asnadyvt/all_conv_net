@@ -5,6 +5,7 @@ import gzip
 import tarfile
 import theano
 import theano.tensor as T
+from pylearn2.expr.preprocessing import global_contrast_normalize
 from sklearn.cross_validation import train_test_split
 
 def unpickle(file):
@@ -25,7 +26,9 @@ def load_cifar(d=10, borrow = True):
 
     cifar10_url = 'https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz'
     cifar100_url = 'https://www.cs.toronto.edu/~kriz/cifar-100-python.tar.gz'
+
     url=cifar10_url
+
     if d==100:
         url = cifar100_url
     def check_dataset(dataset):
@@ -55,8 +58,8 @@ def load_cifar(d=10, borrow = True):
             "cifar-10-batches-py"
         )
         return final_path
-    
-   
+
+
     filename = check_dataset('cifar-10-python.tar.gz')
     train_data = [None]*5
     l = 0
@@ -66,8 +69,8 @@ def load_cifar(d=10, borrow = True):
         l+=len(train_data[i]['labels'])
     test_data = unpickle(filename+'/test_batch')
     label_names = unpickle(filename+'/batches.meta')
-    
-    
+
+
     train_img = np.zeros((l,3,32,32))
     train_labels = np.array(())
     j=0
@@ -84,9 +87,18 @@ def load_cifar(d=10, borrow = True):
     for img in test_data['data']:
         test_img[j]=img.reshape(3,32,32)
         j+=1
-    
+
+    # whiten data
     train_img /= 255.0
+    train_img -= train_img.mean()
     test_img /= 255.0
+    test_img -= test_img.mean()
+
+    # gcn
+    train_img = global_contrast_normalize(train_img, sqrt_bias=10., use_std=True)
+    test_img = global_contrast_normalize(test_img, sqrt_bias=10., use_std=True)
+
+    # apply
 
     train_img, valid_img, train_labels, valid_labels = train_test_split(train_img, train_labels, test_size=0.1)
 
