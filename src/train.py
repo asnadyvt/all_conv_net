@@ -67,8 +67,7 @@ def train(model, batch_size = 200, learning_rate=0.1):
 
 
     params = lasagne.layers.get_all_params(net['output'], trainable=True)
-    for p in params:
-        p.set_value(p.get_value()/ 5)
+
 
     lr_theano = T.fscalar()
 
