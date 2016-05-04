@@ -2,6 +2,7 @@ from __future__ import print_function
 import timeit
 import inspect
 import sys
+import csv
 
 import lasagne
 import numpy as np
@@ -127,8 +128,8 @@ def train(model, batch_size = 200, learning_rate=0.1):
 
     print("........ training")
     model_name = model.__name__
-    n_epochs=350, 
-    lr_epochs=[200, 250, 300],        
+    n_epochs=350
+    lr_epochs=[200, 250, 300]
     verbose = True
     lr = learning_rate
     """
@@ -180,6 +181,9 @@ def train(model, batch_size = 200, learning_rate=0.1):
     epoch = 0
     best_epoch = 0
     done_looping = False
+
+    curframe = inspect.currentframe()
+    calframe = inspect.getouterframes(curframe, 2)
 
     while (epoch < n_epochs) and (not done_looping):
         if epoch in lr_epochs:
@@ -233,11 +237,15 @@ def train(model, batch_size = 200, learning_rate=0.1):
                     test_score = np.mean(test_losses)
 
                     if verbose:
+                        csvfile = open('results.csv', 'a')
+                        resultswriter = csv.writer(csvfile)
                         print(('     epoch %i, minibatch %i/%i, test error of '
                                'best model %f %%') %
                               (epoch, minibatch_index + 1,
                                n_train_batches,
                                test_score * 100.), file=sys.stderr)
+                        resultswriter.writerow([best_validation_loss, epoch, best_iter, n_train_batches, test_score, calframe[1][3], learning_rate])
+                        csvfile.close()
 
             if patience <= iter or (best_validation_loss == 0.0 and test_score == 0.0):
                 done_looping = True
@@ -246,8 +254,6 @@ def train(model, batch_size = 200, learning_rate=0.1):
     end_time = timeit.default_timer()
 
     # Retrieve the name of function who invokes train_nn() (caller's name)
-    curframe = inspect.currentframe()
-    calframe = inspect.getouterframes(curframe, 2)
 
     # Print out summary
     print('Optimization complete.')
@@ -257,6 +263,7 @@ def train(model, batch_size = 200, learning_rate=0.1):
     print(('The training process for function ' +
            calframe[1][3] +
            ' ran for %.2fm' % ((end_time - start_time) / 60.)))
+    # Retrieve the name of function who invokes train_nn() (caller's name)
 
 if __name__ == "__main__":
     lr = 0.25
