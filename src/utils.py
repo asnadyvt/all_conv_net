@@ -5,6 +5,7 @@ import gzip
 import tarfile
 import theano
 import theano.tensor as T
+import pdb
 from pylearn2.expr.preprocessing import global_contrast_normalize
 from sklearn.cross_validation import train_test_split
 
@@ -27,10 +28,10 @@ def load_cifar_whitened(borrow = True):
             "data"
         )
     train_cifar = np.load(folder_path + '/train_x.mat')
-    train_labels = np.load(folder_path + '/train_y.mat')
+    train_labels = np.load(folder_path + '/train_y.mat').flatten()
     test_cifar = np.load(folder_path + '/test_x.mat')
-    test_labels = np.load(folder_path + '/test_y.mat')
-    
+    test_labels = np.load(folder_path + '/test_y.mat').flatten()
+
     l = train_cifar.shape[0]
     
     train_img = np.zeros((l,3,32,32))
@@ -38,7 +39,7 @@ def load_cifar_whitened(borrow = True):
     for i in xrange(l):
         train_img[i] = train_cifar[i].reshape(3,32,32)
     for j in xrange(test_cifar.shape[0]):
-        test_img = test_cifar[j].reshape(3,32,32)
+        test_img[j] = test_cifar[j].reshape(3,32,32)
     
     
     train_img, valid_img, train_labels, valid_labels = train_test_split(train_img, train_labels, test_size=0.1)

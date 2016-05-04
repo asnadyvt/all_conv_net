@@ -187,8 +187,6 @@ def train(model, batch_size = 200, learning_rate=0.1):
             lr *= 0.1
         epoch = epoch + 1
         
-        pdb.set_trace()
-        
         for minibatch_index in range(n_train_batches):
 
             iter = (epoch - 1) * n_train_batches + minibatch_index
