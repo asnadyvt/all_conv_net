@@ -18,6 +18,7 @@ from lasagne.layers import InputLayer, DropoutLayer
 from lasagne.layers import DenseLayer
 from lasagne.regularization import regularize_network_params, l2
 
+from hw3_cnn import *
 from model import *
 from all_cnn import *
 from conv_pool import *
@@ -264,6 +265,7 @@ if __name__ == "__main__":
     lr = float(sys.argv[2])
     mod_id = sys.argv[1]
     d = {}
+    d['hw3_cnn'] = hw3_cnn
     d['model_a'] = model_a
     d['model_b'] = model_b
     d['model_c'] = model_c
