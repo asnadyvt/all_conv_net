@@ -238,7 +238,7 @@ def train(model, batch_size = 200, learning_rate=0.1):
                     test_score = np.mean(test_losses)
 
                     if verbose:
-                        csvfile = open('results.csv', 'a')
+                        csvfile = open(model_name + '_results.csv', 'a')
                         resultswriter = csv.writer(csvfile)
                         print(('     epoch %i, minibatch %i/%i, test error of '
                                'best model %f %%') %
