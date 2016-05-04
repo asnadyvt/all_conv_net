@@ -73,8 +73,8 @@ def train(model, batch_size = 200, learning_rate=0.1):
 
     lr_theano = T.fscalar()
 
-    # updates = lasagne.updates.momentum(loss_train, params, momentum=np.float32(0.9), learning_rate=lr_theano)
-    updates = gradient_descend_momentum(cost=loss_train, params=params, lr=lr_theano, m=np.float32(0.9))
+    updates = lasagne.updates.momentum(loss_train, params, momentum=np.float32(0.9), learning_rate=lr_theano)
+    #updates = gradient_descend_momentum(cost=loss_train, params=params, lr=lr_theano, m=np.float32(0.9))
 
     lr_epochs = [200,250, 300]
 
