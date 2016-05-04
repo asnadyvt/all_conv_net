@@ -26,10 +26,10 @@ def load_cifar_whitened():
             "..",
             "data"
         )
-    train_cifar = np.load('train_x.mat')
-    train_label = np.load('train_y.mat')
-    test_cifar = np.load('test_x.mat')
-    test_label = np.load('test_y.mat')
+    train_cifar = np.load(folder_path + '/train_x.mat')
+    train_label = np.load(folder_path + '/train_y.mat')
+    test_cifar = np.load(folder_path + '/test_x.mat')
+    test_label = np.load(folder_path + '/test_y.mat')
     
     l = train_cifar.shape[0]
     
