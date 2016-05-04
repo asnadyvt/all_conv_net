@@ -46,6 +46,8 @@ def train(model, batch_size = 200, learning_rate=0.1):
 
     train_prediction = lasagne.layers.get_output(net['output'], x, deterministic=False)
     test_prediction = lasagne.layers.get_output(net['output'], x, deterministic=True)
+    global_avg = lasagne.layers.get_output(net['global_avg'],x)
+    before_avg = lasagne.layers.get_output(net['conv7_1'],x)
 
     lamda = 0.001
     l2_penalty = regularize_network_params(net['output'], l2)
@@ -99,6 +101,17 @@ def train(model, batch_size = 200, learning_rate=0.1):
                 x: test_x[index*batch_size:(index+1)*batch_size],
                 y: test_y[index*batch_size:(index+1)*batch_size]
                 })
+
+    global_avg_fn = theano.function(inputs=[index], outputs=[global_avg],
+            givens={
+                x: train_x[index*batch_size:(index+1)*batch_size]
+                })
+
+    before_avg_fn = theano.function(inputs=[index], outputs=[before_avg],
+            givens={
+                x: train_x[index*batch_size:(index+1)*batch_size]
+                })
+
     print("........ training")
     train_nn(net, model.__name__, train_model, validate_model, test_model, n_train_batches, n_valid_batches, n_test_batches, lr=learning_rate)
 
