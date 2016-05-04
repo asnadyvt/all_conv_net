@@ -23,6 +23,13 @@ from all_cnn import *
 from conv_pool import *
 from strided_cnn import *
 
+def gradient_descend_momentum(cost, params, lr, m):
+    updates = []
+    for param in params:
+        param_update = theano.shared(param.get_value()*0.,broadcastable=param.broadcastable)
+        updates.append((param,param-lr*param_update))
+        updates.append((param_update,m*param_update+T.grad(cost,param)))
+    return updates
 
 def load_model_values(filename):
     with gzip.open(filename, 'rb') as f:
@@ -61,9 +68,10 @@ def train(model, batch_size = 200, learning_rate=0.1):
     for p in params:
         p.set_value(p.get_value()/ 5)
 
-    lr = T.fscalar()
+    lr_theano = T.fscalar()
 
-    updates = lasagne.updates.momentum(loss_train, params, momentum=np.float32(0.9), learning_rate=lr)
+    # updates = lasagne.updates.momentum(loss_train, params, momentum=np.float32(0.9), learning_rate=lr_theano)
+    updates = gradient_descend_momentum(cost=loss_train, params=params, lr=lr_theano, m=np.float32(0.9))
 
     lr_epochs = [200,250, 300]
 
@@ -82,7 +90,7 @@ def train(model, batch_size = 200, learning_rate=0.1):
     n_valid_batches = valid_x.get_value(borrow=True).shape[0] // batch_size
     n_test_batches = test_x.get_value(borrow=True).shape[0] // batch_size
     
-    train_model = theano.function(inputs=[index, lr], outputs=[loss_train], updates=updates,
+    train_model = theano.function(inputs=[index, lr_theano], outputs=[loss_train], updates=updates,
             givens={
                 x: train_x[index*batch_size:(index+1)*batch_size],
                 y: train_y[index*batch_size:(index+1)*batch_size]
@@ -99,12 +107,17 @@ def train(model, batch_size = 200, learning_rate=0.1):
                 x: test_x[index*batch_size:(index+1)*batch_size],
                 y: test_y[index*batch_size:(index+1)*batch_size]
                 })
+    get_pred = theano.function(inputs=[index], outputs=[y_pred],
+            givens={
+                x: test_x[index*batch_size:(index+1)*batch_size]
+                })
+    
     print("........ training")
-    train_nn(net, model.__name__, train_model, validate_model, test_model, n_train_batches, n_valid_batches, n_test_batches, lr=learning_rate)
-
-def train_nn(net, model_name, train_model, validate_model, test_model,
-            n_train_batches, n_valid_batches, n_test_batches, n_epochs=350, lr_epochs=[200, 250, 300],
-            verbose = True, lr=0.1):
+    model_name = model.__name__
+    n_epochs=350, 
+    lr_epochs=[200, 250, 300],        
+    verbose = True
+    lr = learning_rate
     """
     Wrapper function for training and test THEANO model
 
@@ -160,6 +173,8 @@ def train_nn(net, model_name, train_model, validate_model, test_model,
             save_model(net['output'], "{0}_{1}.pklz".format(model_name, epoch))
             lr *= 0.1
         epoch = epoch + 1
+        if epoch > 5:
+            pdb.set_trace()
         for minibatch_index in range(n_train_batches):
 
             iter = (epoch - 1) * n_train_batches + minibatch_index
