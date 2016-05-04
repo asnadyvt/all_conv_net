@@ -5,6 +5,7 @@ import gzip
 import tarfile
 import theano
 import theano.tensor as T
+from sklearn.cross_validation import train_test_split
 
 def unpickle(file):
     import cPickle
@@ -84,14 +85,11 @@ def load_cifar(d=10, borrow = True):
         test_img[j]=img.reshape(3,32,32)
         j+=1
     
-    ind = int(train_img.shape[0]*.9)
-    
-    valid_img = train_img[ind:]
-    valid_labels = train_labels[ind:]
-    
-    train_img = train_img[:ind]
-    train_labels = train_labels[:ind]
-    
+    train_img /= 255.0
+    test_img /= 255.0
+
+    train_img, valid_img, train_labels, valid_labels = train_test_split(train_img, train_labels, test_size=0.1)
+
     train_img = theano.shared(np.asarray(train_img,
                                            dtype=theano.config.floatX),
                              borrow=borrow)
