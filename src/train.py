@@ -86,7 +86,7 @@ def train(model, batch_size = 200, learning_rate=0.1):
 
 
     # Load Dataset
-    train_x, train_y, valid_x, valid_y, test_x, test_y = load_cifar()
+    train_x, train_y, valid_x, valid_y, test_x, test_y = load_cifar_whitened()
 
     n_train_batches = train_x.get_value(borrow=True).shape[0] // batch_size
     n_valid_batches = valid_x.get_value(borrow=True).shape[0] // batch_size
