@@ -42,7 +42,7 @@ def save_model(output_layer, filename="model.pklz"):
         pickle.dump(values, f, protocol=2)
 
 def train(model, batch_size = 200, learning_rate=0.1):
-    np.random.seed(569)
+    np.random.seed(5468)
     net = model()
 
     x = net['input'].input_var
@@ -185,8 +185,9 @@ def train(model, batch_size = 200, learning_rate=0.1):
             save_model(net['output'], "{0}_{1}.pklz".format(model_name, epoch))
             lr *= 0.1
         epoch = epoch + 1
-        if epoch > 5:
-            pdb.set_trace()
+        
+        pdb.set_trace()
+        
         for minibatch_index in range(n_train_batches):
 
             iter = (epoch - 1) * n_train_batches + minibatch_index

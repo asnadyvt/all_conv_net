@@ -24,19 +24,19 @@ from lasagne.layers import GlobalPoolLayer
 def model_a():
     net = {}
     net['input'] = InputLayer((None, 3, 32, 32))
-    net['drop_in'] =  DropoutLayer(net['input'], p=0.2)
+    #net['drop_in'] =  DropoutLayer(net['input'], p=0.2)
 
-    net['conv1_1'] = ConvLayer(net['drop_in'], num_filters=96, filter_size=5, flip_filters=False)
+    net['conv1_1'] = ConvLayer(net['input'], num_filters=96, filter_size=5, flip_filters=False)
 
     net['conv2_1'] = PoolLayer(net['conv1_1'], pool_size=3, stride=2)
-    net['drop2_1'] =  DropoutLayer(net['conv2_1'], p=0.5)
+    #net['drop2_1'] =  DropoutLayer(net['conv2_1'], p=0.5)
 
-    net['conv3_1'] = ConvLayer(net['drop2_1'], num_filters=192, filter_size=5, flip_filters=False)
+    net['conv3_1'] = ConvLayer(net['conv2_1'], num_filters=192, filter_size=5, flip_filters=False)
 
     net['conv4_1'] = PoolLayer(net['conv3_1'], pool_size=3, stride=2)
-    net['drop4_1'] =  DropoutLayer(net['conv4_1'], p=0.5)
+    #net['drop4_1'] =  DropoutLayer(net['conv4_1'], p=0.5)
 
-    net['conv5_1'] = ConvLayer(net['drop4_1'], num_filters=192, filter_size=3, flip_filters=False)
+    net['conv5_1'] = ConvLayer(net['conv4_1'], num_filters=192, filter_size=3, flip_filters=False)
     net['conv6_1'] = ConvLayer(net['conv5_1'], num_filters=192, filter_size=1, flip_filters=False)
     net['conv7_1'] = ConvLayer(net['conv6_1'], num_filters=10, filter_size=1, flip_filters=False)
     net['global_avg'] = GlobalPoolLayer(net['conv7_1'])
