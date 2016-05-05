@@ -41,18 +41,12 @@ def load_cifar_whitened(borrow = True):
         test_img[j] = test_cifar[j].reshape(3,32,32)
     
     
-    train_img, valid_img, train_labels, valid_labels = train_test_split(train_img, train_labels, test_size=0.1)
+    #train_img, valid_img, train_labels, valid_labels = train_test_split(train_img, train_labels, test_size=0.1)
     
     train_img = theano.shared(np.asarray(train_img,
                                            dtype=theano.config.floatX),
                              borrow=borrow)
     test_img = theano.shared(np.asarray(test_img,
-                                           dtype=theano.config.floatX),
-                             borrow=borrow)
-    valid_img = theano.shared(np.asarray(valid_img,
-                                           dtype=theano.config.floatX),
-                             borrow=borrow)
-    valid_labels = theano.shared(np.asarray(valid_labels,
                                            dtype=theano.config.floatX),
                              borrow=borrow)
     train_labels = theano.shared(np.asarray(train_labels,
@@ -61,7 +55,7 @@ def load_cifar_whitened(borrow = True):
     test_labels = theano.shared(np.asarray(test_labels,
                                            dtype=theano.config.floatX),
                              borrow=borrow)
-    return train_img,T.cast(train_labels,'int32'),valid_img,T.cast(valid_labels,'int32'),test_img,T.cast(test_labels,'int32')
+    return train_img,T.cast(train_labels,'int32'),test_img,T.cast(test_labels,'int32')
 
     
 
