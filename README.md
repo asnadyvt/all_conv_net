@@ -13,24 +13,19 @@
   backprop
 
 
-### CIFAR-10 Classification Error
+### CIFAR-10 Classification Error withouth data augmentation
 | Model           | Error (%) |
 | ---------------| -----------|
-| withouth data augmentation ||
-|----------------------------||
 | Model A         |     error% |
 | Strided-CNN-A   |     error% |
 | ConvPool-CNN-A  |     error% |
 | ALL-CNN-A       |     error% |
-|-----------------|------------|
 | Model B         |     error% |
 | Strided-CNN-B   |     error% |
 | ConvPool-CNN-B  |     error% |
 | ALL-CNN-B       |     error% |
-|-----------------|------------|
 | Model C         |     error% |
 | Strided-CNN-C   |     error% |
 | ConvPool-CNN-C  |     error% |
 | ALL-CNN-C       |     error% |
-|-----------------|------------|
 
