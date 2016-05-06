@@ -46,6 +46,7 @@ def save_model(output_layer, filename="model.pklz"):
 def train(model, batch_size = 200, learning_rate=0.1):
     np.random.seed(5468)
     net = model()
+#    lasagne.layers.set_all_param_values(net['output'], load_model_values('models/3/all_cnn_b_300.pklz'))
 
     x = net['input'].input_var
     y = T.ivector('y')
@@ -55,7 +56,7 @@ def train(model, batch_size = 200, learning_rate=0.1):
 
     train_prediction = lasagne.layers.get_output(net['output'], x, deterministic=False)
     test_prediction = lasagne.layers.get_output(net['output'], x, deterministic=True)
-    global_avg = lasagne.layers.get_output(net['global_avg'],x)
+    #global_avg = lasagne.layers.get_output(net['global_avg'],x)
     before_avg = lasagne.layers.get_output(net['conv7_1'],x)
 
     lamda = 0.001
@@ -117,10 +118,10 @@ def train(model, batch_size = 200, learning_rate=0.1):
                 })
    
 
-    global_avg_fn = theano.function(inputs=[index], outputs=[global_avg],
-            givens={
-                x: train_x[index*batch_size:(index+1)*batch_size]
-                })
+#    global_avg_fn = theano.function(inputs=[index], outputs=[global_avg],
+#            givens={
+#                x: train_x[index*batch_size:(index+1)*batch_size]
+#                })
 
     before_avg_fn = theano.function(inputs=[index], outputs=[before_avg],
             givens={
@@ -246,7 +247,7 @@ def train(model, batch_size = 200, learning_rate=0.1):
                               (epoch, minibatch_index + 1,
                                n_train_batches,
                                test_score * 100.), file=sys.stderr)
-                        resultswriter.writerow([best_validation_loss, epoch, best_iter, n_train_batches, test_score, calframe[1][3], learning_rate])
+                        resultswriter.writerow([best_validation_loss, epoch, best_iter, n_train_batches, test_score, model_name, learning_rate])
                         csvfile.close()
 
             if patience <= iter or (best_validation_loss == 0.0 and test_score == 0.0):

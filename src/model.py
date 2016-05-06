@@ -40,9 +40,9 @@ def model_a():
 
     net['conv6_1'] = ConvLayer(net['conv5_1'], num_filters=192, filter_size=1, flip_filters=False)
     net['conv7_1'] = ConvLayer(net['conv6_1'], num_filters=10, filter_size=1, flip_filters=False)
-    net['global_avg'] = GlobalPoolLayer(net['conv7_1'])
-    #net['fc10'] = DenseLayer(net['conv7_1'], num_units=10, nonlinearity=None)
-    net['output'] = NonlinearityLayer(net['global_avg'], softmax)
+    net['avg'] = PoolLayer(net['conv7_1'], pool_size = 8, stride=1, mode="average_exc_pad")
+    net['flatten'] = lasagne.layers.FlattenLayer(net['avg'])
+    net['output'] = NonlinearityLayer(net['flatten'], softmax)
     return net
 
 def model_b():
@@ -65,8 +65,9 @@ def model_b():
     net['conv5_1'] = ConvLayer(net['drop4_1'], num_filters=192, pad=1, filter_size=3)
     net['conv6_1'] = ConvLayer(net['conv5_1'], num_filters=192, filter_size=1)
     net['conv7_1'] = ConvLayer(net['conv6_1'], num_filters=10, filter_size=1)
-    net['global_avg'] = GlobalPoolLayer(net['conv7_1'])
-    net['output'] = NonlinearityLayer(net['global_avg'], softmax)
+    net['avg'] = PoolLayer(net['conv7_1'], pool_size = 8, stride=1, mode="average_exc_pad")
+    net['flatten'] = lasagne.layers.FlattenLayer(net['avg'])
+    net['output'] = NonlinearityLayer(net['flatten'], softmax)
 
     return net
 
@@ -90,7 +91,8 @@ def model_c():
     net['conv5_1'] = ConvLayer(net['drop4_1'], num_filters=192, pad=1, filter_size=3, flip_filters=False)
     net['conv6_1'] = ConvLayer(net['conv5_1'], num_filters=192, filter_size=1, flip_filters=False)
     net['conv7_1'] = ConvLayer(net['conv6_1'], num_filters=10, filter_size=1, flip_filters=False)
-    net['global_avg'] = GlobalPoolLayer(net['conv7_1'])
-    net['output'] = NonlinearityLayer(net['global_avg'], softmax)
+    net['avg'] = PoolLayer(net['conv7_1'], pool_size = 8, stride=1, mode="average_exc_pad")
+    net['flatten'] = lasagne.layers.FlattenLayer(net['avg'])
+    net['output'] = NonlinearityLayer(net['flatten'], softmax)
 
     return net
