@@ -15,7 +15,7 @@ from utils import *
 from lasagne.layers import InputLayer, DropoutLayer, FlattenLayer
 from lasagne.layers import DenseLayer, NonlinearityLayer, PadLayer
 from lasagne.layers.dnn import Conv2DDNNLayer as ConvLayer
-from lasagne.layers import Pool2DLayer as PoolLayer
+from lasagne.layers.dnn import Pool2DDNNLayer as PoolLayer
 from lasagne.nonlinearities import softmax
 from lasagne.regularization import regularize_layer_params, l2
 from lasagne.layers import GlobalPoolLayer
