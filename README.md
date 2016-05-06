@@ -20,10 +20,10 @@
 | Strided-CNN-A   |     error% |
 | ConvPool-CNN-A  |     error% |
 | ALL-CNN-A       |     error% |
-| Model B         |     error% |
-| Strided-CNN-B   |     error% |
+| Model B         |      13.52% |
+| Strided-CNN-B   |     15.56% |
 | ConvPool-CNN-B  |     error% |
-| ALL-CNN-B       |     error% |
+| ALL-CNN-B       |     11.84% |
 | Model C         |     error% |
 | Strided-CNN-C   |     error% |
 | ConvPool-CNN-C  |     error% |
