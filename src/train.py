@@ -246,7 +246,7 @@ def train(model, batch_size = 200, learning_rate=0.1):
                               (epoch, minibatch_index + 1,
                                n_train_batches,
                                test_score * 100.), file=sys.stderr)
-                        resultswriter.writerow([best_validation_loss, epoch, best_iter, n_train_batches, test_score, calframe[1][3], learning_rate])
+                        resultswriter.writerow([best_validation_loss, epoch, best_iter, n_train_batches, test_score, model_name, learning_rate])
                         csvfile.close()
 
             if patience <= iter or (best_validation_loss == 0.0 and test_score == 0.0):
