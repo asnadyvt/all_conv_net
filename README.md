@@ -11,3 +11,26 @@
 * Visualize first 3 layers
 * If there is time, Visualize layers 6 and 9 and look into guided
   backprop
+
+
+### CIFAR-10 Classification Error
+| Model           | Error (%) |
+| ---------------| -----------|
+| withouth data augmentation ||
+|----------------------------||
+| Model A         |     error% |
+| Strided-CNN-A   |     error% |
+| ConvPool-CNN-A  |     error% |
+| ALL-CNN-A       |     error% |
+|-----------------|------------|
+| Model B         |     error% |
+| Strided-CNN-B   |     error% |
+| ConvPool-CNN-B  |     error% |
+| ALL-CNN-B       |     error% |
+|-----------------|------------|
+| Model C         |     error% |
+| Strided-CNN-C   |     error% |
+| ConvPool-CNN-C  |     error% |
+| ALL-CNN-C       |     error% |
+|-----------------|------------|
+
