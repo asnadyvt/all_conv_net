@@ -1,0 +1,68 @@
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+\usepackage{cvpr}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb} 
+\usepackage{multirow}
+\usepackage{hhline}
+\usepackage{subfigure}
+
+% Include other packages here, before hyperref.
+
+% If you comment hyperref and then uncomment it, you should delete
+% egpaper.aux before re-running latex.  (Or just hit 'q' on the first latex
+% run, let it finish, and you should be clear).
+\usepackage[pagebackref=true,breaklinks=true,letterpaper=true,colorlinks,bookmarks=false]{hyperref}
+
+ \cvprfinalcopy % *** Uncomment this line for the final submission
+
+\def\cvprPaperID{} % *** Enter the CVPR Paper ID here
+\def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
+
+% Pages are numbered in submission mode, and unnumbered in camera-ready
+\ifcvprfinal\pagestyle{empty}\fi
+
+\begin{document}
+
+%%%%%%%%% TITLE
+%%\title{A Novel Computer Aided Method \\ 
+%%           to Classify Lung Nodules in Thoracic CT Scans}
+
+\title{Review of:\\
+The All Convolutional Net}
+
+
+\author{
+SiKai Lee\\
+Columbia University\\
+116th St \& Broadway, New York, NY, USA\\
+{\tt\small sikai.lee@columbia.edu}
+\and
+ZhiHao Luo\\
+Columbia University\\
+116th St \& Broadway, New York, NY, USA\\
+{\tt\small zl2463@columbia.edu}
+\and
+Juan Pablo Colomer\\
+Columbia University\\
+116th St \& Broadway, New York, NY, USA\\
+{\tt\small jpc2192@columbia.edu}
+}
+\maketitle
+
+\input{tex/Abstract.tex}
+\input{tex/Review.tex}
+\input{tex/Experiments.tex}
+\input{tex/Discussion.tex}
+
+
+{\small
+\bibliographystyle{ieee}
+\bibliography{Bib}
+}
+
+
+\end{document}

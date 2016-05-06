@@ -16,10 +16,10 @@
 ### CIFAR-10 Classification Error withouth data augmentation
 | Model           | Error (%) |
 | ---------------| -----------|
-| Model A         |     error% |
-| Strided-CNN-A   |     error% |
-| ConvPool-CNN-A  |     error% |
-| ALL-CNN-A       |     error% |
+| Model A         |     15.16% |
+| Strided-CNN-A   |     18.23% |
+| ConvPool-CNN-A  |     11.44% |
+| ALL-CNN-A       |     13.44% |
 | Model B         |      13.52% |
 | Strided-CNN-B   |     15.56% |
 | ConvPool-CNN-B  |     error% |
