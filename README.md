@@ -13,7 +13,8 @@
   backprop
 
 
-### CIFAR-10 Classification Error withouth data augmentation
+### CIFAR-10 Classification Error without data augmentation
+
 | Model           | Error (%) |  Time (mins) |
 | ---------------| -----------|
 | Model A         |     15.16% |
@@ -22,7 +23,7 @@
 | ALL-CNN-A       |     12.65% |	642.76 |
 | Model B         |     13.52% |
 | Strided-CNN-B   |     15.56% |
-| ConvPool-CNN-B  |     error% |
+| ConvPool-CNN-B  |     11.84% | 879.25 |
 | ALL-CNN-B       |     11.84% |
 | Model C         |     error% |
 | Strided-CNN-C   |     error% |
