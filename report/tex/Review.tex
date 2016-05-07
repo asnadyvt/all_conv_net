@@ -23,3 +23,6 @@ In the fully connected layers, each node has a weighted connection to every node
 
 \subsection{Homogeneous Structure}
 The author challenges the conventional CNN structure by introducing a number of models that are increasing more homogeneous -- the most extreme of which contains only convolutional layers without pooling or fully connected layers.
+According to the paper a pooling layer is equivalent to perform a feature-wise convolution by replacing the activation function with a $p$-norm. Thus, they question why a pooling layer is needed. Based on this questioning
+they state the hypothesis that pooling is only important in order to reduce the dimensionality. Assuming this hypothesis is true, a pooling layer can be replaced by
+a convolutional layer with an increased stride.
