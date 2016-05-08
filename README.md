@@ -1,7 +1,7 @@
 # ROLLING IN THE DEEP
 ## Implementation of "The All Convolutional Net"
 
-### TODO
+### Implementation details
 * Weight decay, lambda = 0.001
 * SGD with momentum = 0.9
 * Learning rate gamma = [0.25, 0.1, 0.05, 0.01], 0.1 for now
@@ -9,8 +9,6 @@
 * 350 epochs
 * Train all NNs with CIFAR-10
 * Visualize first 3 layers
-* If there is time, Visualize layers 6 and 9 and look into guided
-  backprop
 
 
 ### CIFAR-10 Classification Error without data augmentation
@@ -25,8 +23,8 @@
 | Strided-CNN-B   |     15.56% | |
 | ConvPool-CNN-B  |     11.84% | 879.25 |
 | ALL-CNN-B       |     11.84% | |
-| Model C         |     error% | |
-| Strided-CNN-C   |     error% | |
-| ConvPool-CNN-C  |     error% | |
-| ALL-CNN-C       |     error% | |
+| Model C         |     11.11% | |
+| Strided-CNN-C   |     12.91% | |
+| ConvPool-CNN-C  |     11.09% | |
+| ALL-CNN-C       |     11.17% | |
 
