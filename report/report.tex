@@ -2,6 +2,7 @@
 
 \usepackage{cvpr}
 \usepackage{times}
+\usepackage{float}
 \usepackage{epsfig}
 \usepackage{graphicx}
 \usepackage{amsmath}
@@ -9,6 +10,7 @@
 \usepackage{multirow}
 \usepackage{hhline}
 \usepackage{subfigure}
+\usepackage{placeins}
 
 % Include other packages here, before hyperref.
 
@@ -31,12 +33,11 @@
 %%\title{A Novel Computer Aided Method \\ 
 %%           to Classify Lung Nodules in Thoracic CT Scans}
 
-\title{Review of:\\
-The All Convolutional Net}
+\title{Review: The All Convolutional Net}
 
 
 \author{
-SiKai Lee\\
+Si Kai Lee\\
 Columbia University\\
 116th St \& Broadway, New York, NY, USA\\
 {\tt\small sikai.lee@columbia.edu}
@@ -55,14 +56,18 @@ Columbia University\\
 
 \input{tex/Abstract.tex}
 \input{tex/Review.tex}
+\FloatBarrier
 \input{tex/Experiments.tex}
+\FloatBarrier
 \input{tex/Discussion.tex}
-
-
+\FloatBarrier
+\input{tex/Conclusion.tex}
 {\small
 \bibliographystyle{ieee}
 \bibliography{Bib}
 }
+
+\input{tex/Appendix.tex}
 
 
 \end{document}

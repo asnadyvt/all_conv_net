@@ -1,0 +1,105 @@
+% Check these architectures
+\appendix
+\section{MODEL APPENDIX}
+\begin{table*}
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    Model A & Strided-CNN-A & ConvPool-CNN-A & ALL-CNN-A \\
+    \hline
+    \multicolumn{4}{|c|}{Input $32\times32$ RGB Images} \\
+    \hline
+    $5\times5$ conv. 96 ReLU & $5\times5$ conv. 96 ReLU stride 2 &  $5\times5$ conv. 96 ReLU & $5\times5$ conv. 96 ReLU \\
+    & & $3\times3$ conv. 96 ReLU & \\
+    \hline
+    $3\times3$ max-pooling stride 2 & & $3\times3$ max-pooling stride 2& $3\times3$ conv. 96 ReLU stride 2 \\
+    \hline
+    $5\times5$ conv. 192 ReLU & $5\times5$ conv. 192 ReLU stride 2 &  $5\times5$ conv. 192 ReLU & $5\times5$ conv. 192 ReLU \\
+    & & $3\times3$ conv. 192 ReLU & \\
+    \hline
+    $3\times3$ max-pooling stride 2 & & $3\times3$ max-pooling stride 2& $3\times3$ conv. 96 ReLU stride 2 \\
+    \hline
+    \multicolumn{4}{|c|}{$3\times3$ conv. 192 ReLU} \\
+    \hline
+    \multicolumn{4}{|c|}{$1\times1$ conv. 192 ReLU} \\
+    \hline
+    \multicolumn{4}{|c|}{$1\times1$ conv. 10 ReLU} \\
+    \hline
+    \multicolumn{4}{|c|}{global average pooling layer} \\
+    \hline
+    \multicolumn{4}{|c|}{10-way softmax} \\
+    \hline
+  \end{tabular}
+  \caption{Architectures for Model A}
+  \label{tab:modelA}
+\end{table*}
+
+\begin{table*}
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    Model B & Strided-CNN-B & ConvPool-CNN-B & ALL-CNN-B \\
+    \hline
+    \multicolumn{4}{|c|}{Input $32\times32$ RGB Images} \\
+    \hline
+    $5\times5$ conv. 96 ReLU & $5\times5$ conv. 96 ReLU &  $5\times5$ conv. 96 ReLU & $5\times5$ conv. 96 ReLU \\
+    $1\times1$ conv. 96 ReLU & $1\times1$ conv. 96 ReLU stride 2 &  $1\times1$ conv. 96 ReLU & $1\times1$ conv. 96 ReLU \\
+    & & $3\times3$ conv. 96 ReLU & \\
+    \hline
+    $3\times3$ max-pooling stride 2 & & $3\times3$ max-pooling stride 2& $3\times3$ conv. 96 ReLU stride 2 \\
+    \hline
+    $5\times5$ conv. 192 ReLU & $5\times5$ conv. 192 ReLU &  $5\times5$ conv. 192 ReLU & $5\times5$ conv. 192 ReLU \\
+    $1\times1$ conv. 192 ReLU & $1\times1$ conv. 192 ReLU stride 2 &  $1\times1$ conv. 192 ReLU & $1\times1$ conv. 192 ReLU \\
+    & & $3\times3$ conv. 192 ReLU & \\
+    \hline
+    $3\times3$ max-pooling stride 2 & & $3\times3$ max-pooling stride 2& $3\times3$ conv. 96 ReLU stride 2 \\
+    \hline
+    \multicolumn{4}{|c|}{$3\times3$ conv. 192 ReLU} \\
+    \hline
+    \multicolumn{4}{|c|}{$1\times1$ conv. 192 ReLU} \\
+    \hline
+    \multicolumn{4}{|c|}{$1\times1$ conv. 10 ReLU} \\
+    \hline
+    \multicolumn{4}{|c|}{global average pooling layer} \\
+    \hline
+    \multicolumn{4}{|c|}{10-way softmax} \\
+    \hline
+  \end{tabular}
+  \caption{Architectures for Model B}
+  \label{tab:modelB}
+\end{table*}
+
+\begin{table*}
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    Model C & Strided-CNN-C & ConvPool-CNN-C & ALL-CNN-C \\
+    \hline
+    \multicolumn{4}{|c|}{Input $32\times32$ RGB Images} \\
+    \hline
+    $3\times3$ conv. 96 ReLU & $3\times3$ conv. 96 ReLU &  $3\times3$ conv. 96 ReLU & $3\times3$ conv. 96 ReLU \\
+    $3\times3$ conv. 96 ReLU & $3\times3$ conv. 96 ReLU stride 2 &  $3\times3$ conv. 96 ReLU & $3\times3$ conv. 96 ReLU \\
+    & & $3\times3$ conv. 96 ReLU & \\
+    \hline
+    $3\times3$ max-pooling stride 2 & & $3\times3$ max-pooling stride 2& $3\times3$ conv. 96 ReLU stride 2 \\
+    \hline
+    $3\times3$ conv. 192 ReLU & $3\times3$ conv. 192 ReLU &  $3\times3$ conv. 192 ReLU & $3\times3$ conv. 192 ReLU \\
+    $3\times3$ conv. 192 ReLU & $3\times3$ conv. 192 ReLU stride 2 &  $3\times3$ conv. 192 ReLU & $3\times3$ conv. 192 ReLU \\
+    & & $3\times3$ conv. 192 ReLU & \\
+    \hline
+    $3\times3$ max-pooling stride 2 & & $3\times3$ max-pooling stride 2& $3\times3$ conv. 96 ReLU stride 2 \\
+    \hline
+    \multicolumn{4}{|c|}{$3\times3$ conv. 192 ReLU} \\
+    \hline
+    \multicolumn{4}{|c|}{$1\times1$ conv. 192 ReLU} \\
+    \hline
+    \multicolumn{4}{|c|}{$1\times1$ conv. 10 ReLU} \\
+    \hline
+    \multicolumn{4}{|c|}{global average pooling layer} \\
+    \hline
+    \multicolumn{4}{|c|}{10-way softmax} \\
+    \hline
+  \end{tabular}
+  \caption{Architectures for Model C}
+  \label{tab:modelC}
+\end{table*}

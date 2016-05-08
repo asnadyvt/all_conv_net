@@ -1,111 +1,20 @@
 \section{Experiments}
 
 \subsection{Architectures}
-% Check these architectures
-\begin{table}
-  \centering
-  \begin{tabular}{|c|c|c|c|}
-    \hline
-    Model A & Strided-CNN-A & ConvPool-CNN-A & ALL-CNN-A \\
-    \hline
-    \multicolumn{4}{|c|}{Input $32\times32$ RGB Images} \\
-    \hline
-    $5\times5$ conv. 96 ReLU & $5\times5$ conv. 96 ReLU stride 2 &  $5\times5$ conv. 96 ReLU & $5\times5$ conv. 96 ReLU \\
-    & & $3\times3$ conv. 96 ReLU & \\
-    \hline
-    $3\times3$ max-pooling stride 2 & & $3\times3$ max-pooling stride 2& $3\times3$ conv. 96 ReLU stride 2 \\
-    \hline
-    $5\times5$ conv. 192 ReLU & $5\times5$ conv. 192 ReLU stride 2 &  $5\times5$ conv. 192 ReLU & $5\times5$ conv. 192 ReLU \\
-    & & $3\times3$ conv. 192 ReLU & \\
-    \hline
-    $3\times3$ max-pooling stride 2 & & $3\times3$ max-pooling stride 2& $3\times3$ conv. 96 ReLU stride 2 \\
-    \hline
-    \multicolumn{4}{|c|}{$3\times3$ conv. 192 ReLU} \\
-    \multicolumn{4}{|c|}{$1\times1$ conv. 192 ReLU} \\
-    \multicolumn{4}{|c|}{$1\times1$ conv. 10 ReLU} \\
-    \multicolumn{4}{|c|}{global average pooling layer} \\
-    \multicolumn{4}{|c|}{10-way softmax} \\
-  \end{tabular}
-  \caption{Architectures for Model A}
-\end{table}
+The architectures that we experimented with are listed in the appendix. We only ran our networks on CIFAR-10 as CIFAR-100 was too computationally expensive and we were limited by time. 1-by-1 convolutions were used in place of FCs to produce 10 outputs. Model A is the simplest model and closest to a vanilla CNN, B is a variant of the Network-in-Network architecture ~\cite{lin2013network} and C follows the prescription by~\cite{simonyan2014very} to use smaller 3-by-3 convolutions. With such a configuration, C ensures homogeneity in the network and have the smallest filters possible with overlapping convolutions of stride 2. Three variants of each model (Strided, ConvPool, All-CNN) were used to ensure that the authors' hypothesis is correct. Strided was used to test the first method proposed to replace to the pooling layer, All-CNN the second method and ConvPool to demonstrate that increasing model size is not the reason for improvements in prediction accuracy. The models are detailed in the appendix.
 
-\begin{table}
-  \centering
-  \begin{tabular}{|c|c|c|c|}
-    \hline
-    Model B & Strided-CNN-B & ConvPool-CNN-B & ALL-CNN-B \\
-    \hline
-    \multicolumn{4}{|c|}{Input $32\times32$ RGB Images} \\
-    \hline
-    $5\times5$ conv. 96 ReLU & $5\times5$ conv. 96 ReLU &  $5\times5$ conv. 96 ReLU & $5\times5$ conv. 96 ReLU \\
-    $1\times1$ conv. 96 ReLU & $1\times1$ conv. 96 ReLU stride 2 &  $1\times1$ conv. 96 ReLU & $1\times1$ conv. 96 ReLU \\
-    & & $3\times3$ conv. 96 ReLU & \\
-    \hline
-    $3\times3$ max-pooling stride 2 & & $3\times3$ max-pooling stride 2& $3\times3$ conv. 96 ReLU stride 2 \\
-    \hline
-    $5\times5$ conv. 192 ReLU & $5\times5$ conv. 192 ReLU &  $5\times5$ conv. 192 ReLU & $5\times5$ conv. 192 ReLU \\
-    $1\times1$ conv. 192 ReLU & $1\times1$ conv. 192 ReLU stride 2 &  $1\times1$ conv. 192 ReLU & $1\times1$ conv. 192 ReLU \\
-    & & $3\times3$ conv. 192 ReLU & \\
-    \hline
-    $3\times3$ max-pooling stride 2 & & $3\times3$ max-pooling stride 2& $3\times3$ conv. 96 ReLU stride 2 \\
-    \hline
-    \multicolumn{4}{|c|}{$3\times3$ conv. 192 ReLU} \\
-    \multicolumn{4}{|c|}{$1\times1$ conv. 192 ReLU} \\
-    \multicolumn{4}{|c|}{$1\times1$ conv. 10 ReLU} \\
-    \multicolumn{4}{|c|}{global average pooling layer} \\
-    \multicolumn{4}{|c|}{10-way softmax} \\
-  \end{tabular}
-  \caption{Architectures for Model B}
-\end{table}
+\subsection{Implementation}
+We adapted the loading and training scripts given to us for the assignments. Instead of loading MINST or SVHN, we loaded the dataset and moved it to the GPU by the shared function. However, in this case, we did not include a validation set as training was stopped after 350 epochs. Since the paper statedAs Montreal's LISA Lab had already provided a script for whitening and global contrast normalization within the PyLearn2 package~\cite{goodfellow2013pylearn2}, we used the script \textit{make\_cifar10\_gcn\_whitened.py} to preprocess our dataset that we downloaded beforehand. We also included a function to visualize the images to ensure that we were loading the labels correctly.
 
-\begin{table}
-  \centering
-  \begin{tabular}{|c|c|c|c|}
-    \hline
-    Model C & Strided-CNN-C & ConvPool-CNN-C & ALL-CNN-C \\
-    \hline
-    \multicolumn{4}{|c|}{Input $32\times32$ RGB Images} \\
-    \hline
-    $3\times3$ conv. 96 ReLU & $3\times3$ conv. 96 ReLU &  $3\times3$ conv. 96 ReLU & $3\times3$ conv. 96 ReLU \\
-    $3\times3$ conv. 96 ReLU & $3\times3$ conv. 96 ReLU stride 2 &  $3\times3$ conv. 96 ReLU & $3\times3$ conv. 96 ReLU \\
-    & & $3\times3$ conv. 96 ReLU & \\
-    \hline
-    $3\times3$ max-pooling stride 2 & & $3\times3$ max-pooling stride 2& $3\times3$ conv. 96 ReLU stride 2 \\
-    \hline
-    $3\times3$ conv. 192 ReLU & $3\times3$ conv. 192 ReLU &  $3\times3$ conv. 192 ReLU & $3\times3$ conv. 192 ReLU \\
-    $3\times3$ conv. 192 ReLU & $3\times3$ conv. 192 ReLU stride 2 &  $3\times3$ conv. 192 ReLU & $3\times3$ conv. 192 ReLU \\
-    & & $3\times3$ conv. 192 ReLU & \\
-    \hline
-    $3\times3$ max-pooling stride 2 & & $3\times3$ max-pooling stride 2& $3\times3$ conv. 96 ReLU stride 2 \\
-    \hline
-    \multicolumn{4}{|c|}{$3\times3$ conv. 192 ReLU} \\
-    \multicolumn{4}{|c|}{$1\times1$ conv. 192 ReLU} \\
-    \multicolumn{4}{|c|}{$1\times1$ conv. 10 ReLU} \\
-    \multicolumn{4}{|c|}{global average pooling layer} \\
-    \multicolumn{4}{|c|}{10-way softmax} \\
-  \end{tabular}
-  \caption{Architectures for Model C}
-\end{table}
+Lasagne~\cite{dieleman2015lasagne}, a library to build and train neural networks on top of Theano, was used as it would require less time to build the networks compared to vanilla Theano. Also, Lasagne incorporates many useful wrapper methods for tasks such as generating Theano update dictionaries for training, regularization and objective functions. Moreover, the methods provided by Lasagne are widely used and have been vetted by members of the deep learning community. By using Lasagne we saved significant time in constructing the neural networks and debugging the build process.
 
-\begin{table}
-  \centering
-  \begin{tabular}{|c c c|}
-    Model & Error (\%) & # parameters \\
-    \hline
-    Model A & 12.47\% & \approx 0.9 M \\
-    Strided-CNN-A & 13.46\% & \approx 0.9 M \\
-    ConvPool-CNN-A & 10.21\% & \approx 1.28 M \\
-    ALL-CNN-A & 10.30\% & \approx 1.28 M \\
-    \hline
-    Model B & 10.20\% & \approx 1 M \\
-    Strided-CNN-B & 10.98\% & \approx 1 M \\
-    ConvPool-CNN-B & 9.33\% & \approx 1.35 M \\
-    ALL-CNN-B & 9.10\% & \approx 1.35 M \\
-    \hline
-    Model C & 9.74\% & \approx 1.3 M \\
-    Strided-CNN-C & 10.19\% & \approx 1.3 M \\
-    ConvPool-CNN-C & 9.31\% & \approx 1.4 M \\
-    ALL-CNN-C & 9.08\% & \approx 1.4 M \\
-  \end{tabular}
-  \caption{Original classification Error on CIFAR-10}
-\end{table}
+The parameters we used in our implementation of the models detailed in the paper are as follows:
+\begin{itemize}
+\item Trained with stochastic gradient descent with momentum of $0.9$.
+\item Learning rates were selected from the set of [0.25, 0.1, 0.05, 0.01]
+\item Adapted learning rate by multiplying it by 0.1 after epochs 200, 250, 300.
+\item Convolutional layers with a filter size larger than 1 have a padding of 1.
+\item Dropout of $20\%$ was added after the input layer and $50\%$ after a max-pooling layer or its corresponding convolutional layer with stride 2.
+\item Weight decay with $\lambda = 0.001$.
+\item Batch size is 200
+\end{itemize}
